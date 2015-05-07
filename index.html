@@ -5,8 +5,67 @@
             ul {
                 list-style: none;
             },
-            #loaded {
+            .button.loaded {
                 background-color: yellow;
+                color: black;
+            }
+            .selections {
+                width: 33%;
+            }
+
+            body { background:#3f4348 url('http://www.frecosse.com/workshop/accordion_menu/bg.png'); 
+            }
+            h1 { color:#fff; font-family:arial, sans-serif; font-size:18px; font-weight:normal; text-shadow: 0 1px rgba(0,0,0,.75); margin-top:24px; }
+            .box { display:inline-block; 
+                width:100%; 
+                margin-right:20px; 
+                padding:30px; 
+                border:1px solid #000; 
+                text-align:center;  
+                box-shadow: 0 5px 10px #000; 
+            }
+            .blue { background:#00AAE6; }
+            .pink { background:#cf3c77; }
+            .purple { background:#805087; }
+            .gradient {
+              background: -webkit-gradient(radial, center center, 0, center center, 460, from(#1a82f7), to(#2F2727));
+              background: -webkit-radial-gradient(circle, #1a82f7, #2F2727);
+              background: -moz-radial-gradient(circle, #1a82f7, #2F2727);
+              background: -ms-radial-gradient(circle, #1a82f7, #2F2727);
+            }
+            .gradient2 {
+                background: linear-gradient(45deg, rgba(191,210,85,1) 0%,rgba(142,185,42,1) 50%,rgba(114,170,0,1) 51%,rgba(158,203,45,1) 100%);
+                filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#bfd255', endColorstr='#9ecb2d',GradientType=1 );
+            }
+
+            button {
+                background: linear-gradient(top, rgba(255,255,255,.2) 0%, rgba(0,0,0,.2) 100%);
+                border:0;
+                padding: 4px 12px;
+                border-radius: 3px;
+                color: #fff;
+                display: inline-block;
+                font-size: 12px;
+                letter-spacing:0.1em;
+                text-decoration: none;
+                text-shadow: 0 1px rgba(0,0,0,.75);
+                cursor: pointer;
+                font-family: Arial, sans-serif;
+                box-shadow: 0 1px 4px #000;
+            }
+            button:hover
+            {
+            background: #eee; 
+            background: linear-gradient(top, rgba(255,255,255,.3) 0%, rgba(0,0,0,.3) 100%); 
+            }
+                  
+
+            button:active
+            {
+                position:relative; 
+                top:1px;
+                background: linear-gradient(top, rgba(0,0,0,.3) 0%, rgba(255,255,255,.3) 100%);
+                box-shadow: 0 0px 2px #000;
             }
 
         </style>
@@ -15,16 +74,21 @@
         <title>Super Awesome Redirect Page of Awesomeness!!!</title>
 
         <script type="text/javascript">
+            var names;
+
+            var buttons =   document.getElementsByClassName('button');
+            var old     =   document.getElementsByClassName('loaded'); 
+            
+
             var peeps = [
-                {name: "Mike", ip: "192.168.20.233"},
-                {name: "Gavitron", ip: "192.168.20.238", css:"style = 'color:pink;'"},
-                {name: "Lisa", ip: "192.168.20.227"},
-                {name: "Sean-tastic", ip: "192.168.20.143"},
-                {name: "Adrian", ip: "192.168.20.42", css:"id=loaded"},
-                {name: "David", ip: "?"},
-                {name: "Old School", ip: "grunt.dev", css:"style = 'color:blue;'"}
+                {name: "Mike",          ip: "192.168.20.233"},
+                {name: "Gavitron",      ip: "192.168.20.238",   css:"style='color:pink;'"},
+                {name: "Lisa",          ip: "192.168.20.227"},
+                {name: "Sean-tastic",   ip: "192.168.20.143"},
+                {name: "Adrian",        ip: "192.168.20.42",    css:"id=loaded"},
+                {name: "David",         ip: "?"},
+                {name: "Old School",    ip: "grunt.dev",        css:"style='color:blue;'"}
             ];
-            var names="";
 
             for (var i = 0; i < peeps.length; i++) {
                 var thisOne = ("<li><button class='button' id='"+i+"'");
@@ -36,23 +100,29 @@
             
 
             document.addEventListener('DOMContentLoaded', function() {
+
                 var d = document.getElementById('names');
                 d.innerHTML=names;
-
-                var buttons =document.getElementsByClassName('button');
-                var old = document.getElementsByClassName('loaded'); 
 
                 for(var z =0; z < buttons.length; z++){
                     var elem = buttons[z];   
                     elem.onclick = function(){
-               
+                        
+                        var dest = peeps[this.id],
+                            goButton = document.getElementById('destination');
+
+                        if (dest.name === "David") {
+                            goButton.innerHTML = "... wait is there no free lunch at Comcast today?";
+                            return;
+                        }
+
                         while (old.length != 0) {
                             old[0].classList.remove('loaded');
                         }
                         this.classList.add('loaded');
 
-                        var goButton = document.getElementById('destination');
-                        var dest = peeps[this.id]
+                        goButton = document.getElementById('destination');
+                        
                         goButton.innerHTML=dest.name;
                     };
                 }
@@ -71,7 +141,7 @@
                 </ul>
             </div>
             <div class = "goto">
-                <button > Click here to go to: 
+                <button > Click here to go to 
                     <span id ="destination">nowhere</span>
                 </button>
             </div>
