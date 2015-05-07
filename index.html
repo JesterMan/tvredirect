@@ -2,15 +2,15 @@
 <html>
     <head>
         <style type="text/css">
+
             ul {
                 list-style: none;
-            },
-            .button.loaded {
-                background-color: yellow;
-                color: black;
             }
             .selections {
                 width: 33%;
+            }
+            #names{
+                width: 100%;    
             }
 
             body { background:#3f4348 url('http://www.frecosse.com/workshop/accordion_menu/bg.png'); 
@@ -39,17 +39,16 @@
             }
 
             button {
-                background: linear-gradient(top, rgba(255,255,255,.2) 0%, rgba(0,0,0,.2) 100%);
+                text-align: right;
                 border:0;
+                width: 100%;
                 padding: 4px 12px;
                 border-radius: 3px;
-                color: #fff;
+                color: gray;
                 display: inline-block;
                 font-size: 12px;
                 letter-spacing:0.1em;
                 text-decoration: none;
-                text-shadow: 0 1px rgba(0,0,0,.75);
-                cursor: pointer;
                 font-family: Arial, sans-serif;
                 box-shadow: 0 1px 4px #000;
             }
@@ -60,12 +59,31 @@
             }
                   
 
-            button:active
-            {
+            button.loaded
+            {   
+                color:black;
+                background: #65a4a4;
                 position:relative; 
                 top:1px;
                 background: linear-gradient(top, rgba(0,0,0,.3) 0%, rgba(255,255,255,.3) 100%);
                 box-shadow: 0 0px 2px #000;
+            }
+            button.going{
+                text-align: center;
+            }
+            .ports{
+                height: 100%;
+                width: 100%;
+            }
+            #ipfreely{
+                  margin-left: 38%;
+                  width: 40%;
+                  top: 10%;
+                  position: absolute;
+
+            }
+            #ipfreely li{
+
             }
 
         </style>
@@ -74,20 +92,27 @@
         <title>Super Awesome Redirect Page of Awesomeness!!!</title>
 
         <script type="text/javascript">
-            var names;
+            var names       =   "",
+                portlist    =   "";
 
-            var buttons =   document.getElementsByClassName('button');
-            var old     =   document.getElementsByClassName('loaded'); 
+            var buttons     =   document.getElementsByClassName('button');
+            var ports       =   document.getElementsByClassName('port');
+            var old         =   document.getElementsByClassName('loaded');
+            
+
             
 
             var peeps = [
                 {name: "Mike",          ip: "192.168.20.233"},
-                {name: "Gavitron",      ip: "192.168.20.238",   css:"style='color:pink;'"},
+                {name: "Gavitron",      ip: "192.168.20.238",   css:"style='color:#ff00ff;'"},
                 {name: "Lisa",          ip: "192.168.20.227"},
                 {name: "Sean-tastic",   ip: "192.168.20.143"},
                 {name: "Adrian",        ip: "192.168.20.42",    css:"id=loaded"},
                 {name: "David",         ip: "?"},
                 {name: "Old School",    ip: "grunt.dev",        css:"style='color:blue;'"}
+            ];
+            var ports =[
+                80, 8000, 8001
             ];
 
             for (var i = 0; i < peeps.length; i++) {
@@ -96,35 +121,40 @@
                 thisOne += (">"+ peeps[i].name +" @ "+peeps[i].ip+" </button></li>");
                 names += thisOne;
             }
+            for (var i = 0; i < ports.length; i++) {
+                var builder = ("<li><button class='port' id='"+ports[i]+"'>On Port: "+ports[i]+"</button></li>");
+                portlist += builder;
+            }
 
             
 
             document.addEventListener('DOMContentLoaded', function() {
 
-                var d = document.getElementById('names');
-                d.innerHTML=names;
+                var buttonNames = document.getElementById('names'),
+                    portNumbers = document.getElementById('ipfreely');
+
+                buttonNames.innerHTML=names;
+                portNumbers.innerHTML=portlist;
 
                 for(var z =0; z < buttons.length; z++){
                     var elem = buttons[z];   
                     elem.onclick = function(){
-                        
-                        var dest = peeps[this.id],
-                            goButton = document.getElementById('destination');
+                        var dest        =   peeps[this.id];
+                        var goButton    =   document.getElementById('destination');
+                        var ipButton    =   document.getElementById('ip');
 
-                        if (dest.name === "David") {
-                            goButton.innerHTML = "... wait is there no free lunch at Comcast today?";
-                            return;
-                        }
 
                         while (old.length != 0) {
                             old[0].classList.remove('loaded');
                         }
                         this.classList.add('loaded');
 
-                        goButton = document.getElementById('destination');
-                        
                         goButton.innerHTML=dest.name;
-                    };
+
+                        if (dest.name === "David") {
+                            goButton.innerHTML = "... wait is there no free lunch at Comcast today?";
+                        }
+                    }
                 }
 
             });
@@ -136,14 +166,17 @@
         <div class = "wrapper">
             <div class ="selections">
                 <ul id = "names">
-
-
                 </ul>
+                <div class ="ports">
+                    <ul id ="ipfreely">
+                    <ul>
+                </div>
             </div>
             <div class = "goto">
-                <button > Click here to go to 
+                <button class = "going"> Click here to go to 
                     <span id ="destination">nowhere</span>
                 </button>
+                <span id = "ip"></span>
             </div>
         </div>
     </body>
