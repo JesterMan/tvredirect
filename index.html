@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style type="text/css">
+            ul {
+                list-style: none;
+            },
+            #loaded {
+                background-color: yellow;
+            }
+
+        </style>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Super Awesome Redirect Page of Awesomeness!!!</title>
+
+        <script type="text/javascript">
+            var peeps = [
+                {name: "Mike", ip: "192.168.20.233"},
+                {name: "Gavitron", ip: "192.168.20.238", css:"style = 'color:pink;'"},
+                {name: "Lisa", ip: "192.168.20.227"},
+                {name: "Sean-tastic", ip: "192.168.20.143"},
+                {name: "Adrian", ip: "192.168.20.42", css:"id=loaded"},
+                {name: "David", ip: "?"},
+                {name: "Old School", ip: "grunt.dev", css:"style = 'color:blue;'"}
+            ];
+            var names="";
+
+            for (var i = 0; i < peeps.length; i++) {
+                var thisOne = ("<li><button class='button' id='"+i+"'");
+                if (peeps[i].css) thisOne += peeps[i].css;
+                thisOne += (">"+ peeps[i].name +" @ "+peeps[i].ip+" </button></li>");
+                names += thisOne;
+            }
+
+            
+
+            document.addEventListener('DOMContentLoaded', function() {
+                var d = document.getElementById('names');
+                d.innerHTML=names;
+
+                var buttons =document.getElementsByClassName('button');
+                var old = document.getElementsByClassName('loaded'); 
+
+                for(var z =0; z < buttons.length; z++){
+                    var elem = buttons[z];   
+                    elem.onclick = function(){
+               
+                        while (old.length != 0) {
+                            old[0].classList.remove('loaded');
+                        }
+                        this.classList.add('loaded');
+
+                        var goButton = document.getElementById('destination');
+                        var dest = peeps[this.id]
+                        goButton.innerHTML=dest.name;
+                    };
+                }
+
+            });
+        </script>
+
+
+    </head>
+    <body>
+        <div class = "wrapper">
+            <div class ="selections">
+                <ul id = "names">
+
+
+                </ul>
+            </div>
+            <div class = "goto">
+                <button > Click here to go to: 
+                    <span id ="destination">nowhere</span>
+                </button>
+            </div>
+        </div>
+    </body>
+</html>
